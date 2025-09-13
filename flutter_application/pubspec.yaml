@@ -1,0 +1,46 @@
+name: flutter_application
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_dotenv: ^5.1.0
+  http: ^0.13.5
+  image_picker: ^1.0.7
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+  flutter_native_splash: ^2.3.7
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/Copie de Logo noir.png
+    - images/google_logo.png
+    - images/Copie de Logo blanc.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/Copie de Logo blanc.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "images/Copie de Logo blanc.png"
+
+flutter_native_splash:
+  color: "#000000"
+  image: "images/Copie de Logo blanc.png"
+  android_12:
+    image: "images/Copie de Logo blanc.png"
+    color: "#000000"
+  ios: true
