@@ -1,15 +1,16 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConstants {
   static String get baseUrl {
-    return dotenv.get('BASE_URL', fallback: 'http://192.168.1.16:5000');
+    // 1. FOR PHYSICAL DEVICE: Use your machine's IP (check with 'ipconfig')
+    // Ensure both phone and PC are on the same Wi-Fi.
+    return 'http://192.168.1.15:5000/api';
+
+    // 2. FOR ANDROID EMULATOR: Use 10.0.2.2
+    // return 'http://10.0.2.2:5000/api';
+
+    // 3. FOR IOS SIMULATOR: Use localhost
+    // return 'http://localhost:5000/api';
   }
-
-  // For development (iOS simulator)
-  // static const String baseUrl = 'http://localhost:5000/api';
-
-  // For production (your live server)
-  // static const String baseUrl = 'https://your-api-domain.com/api';
 
   // Add other constants as needed
   static const int connectionTimeout = 30000; // 30 seconds
