@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_application/core/app_constants.dart';
 
 Future<List<mylogic.Material>> fetchMaterials(String category) async {
-  final response = await http.get(
-      Uri.parse('http://192.168.1.16:5000/api/materials?category=$category'));
+  final response = await http
+      .get(Uri.parse('${AppConstants.baseUrl}/materials?category=$category'));
   if (response.statusCode == 200) {
     final List data = jsonDecode(response.body);
     return data.map((json) => mylogic.Material.fromJson(json)).toList();
@@ -56,7 +57,8 @@ class _ProductPageState extends State<ProductPage> {
       barrierDismissible: false,
       builder: (context) => Theme(
         data: Theme.of(context).copyWith(
-          dialogBackgroundColor: const Color(0xFFE1DBBD),
+          dialogTheme:
+              DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
         ),
         child: StatefulBuilder(
           builder: (context, setState) => Dialog(
@@ -291,7 +293,7 @@ class _ProductPageState extends State<ProductPage> {
                                 var request = http.MultipartRequest(
                                   'POST',
                                   Uri.parse(
-                                      'http://192.168.1.16:5000/api/materials'),
+                                      'http://192.168.1.15:5000/api/materials'),
                                 );
                                 request.fields['name'] = nameController.text;
                                 request.fields['type'] = typeController.text;
@@ -455,8 +457,8 @@ class _ProductPageState extends State<ProductPage> {
           ? FloatingActionButton(
               onPressed: () => _showAddMaterialDialog(context),
               backgroundColor: Colors.black,
-              child: const Icon(Icons.add, color: Colors.white),
               tooltip: 'Add Product',
+              child: const Icon(Icons.add, color: Colors.white),
             )
           : null,
     );
@@ -467,7 +469,7 @@ class _ProductPageState extends State<ProductPage> {
       {VoidCallback? onTap}) {
     final String imageUrl =
         imagePath.isNotEmpty && !imagePath.startsWith('http')
-            ? 'http://192.168.1.16:5000/$imagePath'
+            ? '${AppConstants.baseUrl.replaceAll("/api", "")}/$imagePath'
             : imagePath;
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),

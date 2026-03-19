@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:flutter_application/presentation/screens/auth/sign_in.dart';
 import 'dart:convert';
+import 'package:flutter_application/core/app_constants.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -46,7 +47,7 @@ class _AccountState extends State<Account> {
 
       var request = http.MultipartRequest(
         'PATCH',
-        Uri.parse('http://192.168.1.16:5000/api/accounts/upload-photo'),
+        Uri.parse('${AppConstants.baseUrl}/accounts/upload-photo'),
       );
       request.fields['email'] = loggedInEmail!;
       request.files
@@ -76,7 +77,8 @@ class _AccountState extends State<Account> {
       context: context,
       builder: (context) => Theme(
         data: Theme.of(context).copyWith(
-          dialogBackgroundColor: const Color(0xFFE1DBBD),
+          dialogTheme:
+              DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
         ),
         child: Dialog(
           backgroundColor: const Color(0xFFE1DBBD),
@@ -142,8 +144,7 @@ class _AccountState extends State<Account> {
                       ),
                       onPressed: () async {
                         final response = await http.patch(
-                          Uri.parse(
-                              'http://192.168.1.16:5000/api/accounts/update'),
+                          Uri.parse('${AppConstants.baseUrl}/accounts/update'),
                           headers: {'Content-Type': 'application/json'},
                           body: jsonEncode({
                             'email': dbUser.email,
@@ -278,7 +279,7 @@ class _AccountState extends State<Account> {
                                                     dbUser.imageUrl
                                                             .startsWith('http')
                                                         ? dbUser.imageUrl
-                                                        : 'http://192.168.1.16:5000/${dbUser.imageUrl}',
+                                                        : '${AppConstants.baseUrl.replaceAll("/api", "")}/${dbUser.imageUrl}',
                                                     fit: BoxFit.cover,
                                                     width: 120,
                                                     height: 120,
@@ -478,7 +479,7 @@ void showLogoutConfirmation(BuildContext context) {
     barrierDismissible: true,
     builder: (context) => Theme(
       data: Theme.of(context).copyWith(
-        dialogBackgroundColor: const Color(0xFFE1DBBD),
+        dialogTheme: DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
       ),
       child: AlertDialog(
         backgroundColor: const Color(0xFFE1DBBD),

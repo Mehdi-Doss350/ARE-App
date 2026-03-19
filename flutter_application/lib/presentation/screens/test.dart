@@ -186,7 +186,7 @@ class _NotificationsState extends State<Notifications> {
                             ),
                           ),
                         );
-                      }).toList(),
+                      }),
                   ],
                 ),
         ),
@@ -203,14 +203,15 @@ class _NotificationsState extends State<Notifications> {
 
   void _showReservationDetailsDialog(
       BuildContext context, Map<String, dynamic> reservation) {
-    final TextEditingController _responseController =
+    final TextEditingController responseController =
         TextEditingController(text: reservation['admin_response'] ?? '');
 
     showDialog(
         context: context,
         builder: (context) => Theme(
               data: Theme.of(context).copyWith(
-                dialogBackgroundColor: const Color(0xFFE1DBBD),
+                dialogTheme:
+                    DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
               ),
               child: Dialog(
                 backgroundColor: const Color(0xFFE1DBBD),
@@ -263,7 +264,7 @@ class _NotificationsState extends State<Notifications> {
                           if (_isAdmin) ...[
                             const SizedBox(height: 15),
                             TextField(
-                              controller: _responseController,
+                              controller: responseController,
                               decoration: InputDecoration(
                                 labelText: 'Admin Response',
                                 border: OutlineInputBorder(),
@@ -283,7 +284,7 @@ class _NotificationsState extends State<Notifications> {
                                   onPressed: () => _updateReservation(
                                       reservation,
                                       'Rejected',
-                                      _responseController.text),
+                                      responseController.text),
                                   child: const Text("REJECT"),
                                 ),
                                 const SizedBox(width: 10),
@@ -295,7 +296,7 @@ class _NotificationsState extends State<Notifications> {
                                   onPressed: () => _updateReservation(
                                       reservation,
                                       'Approved',
-                                      _responseController.text),
+                                      responseController.text),
                                   child: const Text("APPROVE"),
                                 ),
                               ] else ...[

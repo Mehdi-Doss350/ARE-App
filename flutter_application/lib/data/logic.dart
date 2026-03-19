@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application/core/app_constants.dart';
 import 'dart:convert';
 
 class category {
@@ -98,7 +99,7 @@ class account {
 
 Future<List<category>> fetchCategories() async {
   final response =
-      await http.get(Uri.parse('http://192.168.1.16:5000/api/categories'));
+      await http.get(Uri.parse('${AppConstants.baseUrl}/categories'));
   if (response.statusCode == 200) {
     final List data = jsonDecode(response.body);
     return data.map((json) => category.fromJson(json)).toList();
@@ -109,8 +110,8 @@ Future<List<category>> fetchCategories() async {
 
 Future<List<Material>> fetchMaterials([String? category]) async {
   final url = category != null && category.isNotEmpty
-      ? 'http://192.168.1.16:5000/api/materials?category=$category'
-      : 'http://192.168.1.16:5000/api/materials';
+      ? '${AppConstants.baseUrl}/materials?category=$category'
+      : '${AppConstants.baseUrl}/materials';
 
   final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
@@ -123,7 +124,7 @@ Future<List<Material>> fetchMaterials([String? category]) async {
 
 Future<account> fetchAccountByEmail(String email) async {
   final response = await http.get(
-    Uri.parse('http://192.168.1.16:5000/api/accounts?email=$email'),
+    Uri.parse('${AppConstants.baseUrl}/accounts?email=$email'),
   );
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
@@ -142,7 +143,7 @@ Future<account> fetchAccountByEmail(String email) async {
 
 Future<account> fetchAccountByName(String name) async {
   final response = await http.get(
-    Uri.parse('http://192.168.1.16:5000/api/accounts?name=$name'),
+    Uri.parse('${AppConstants.baseUrl}/accounts?name=$name'),
   );
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
@@ -160,7 +161,7 @@ Future<account> fetchAccountByName(String name) async {
 }
 
 class ReservationService {
-  static const String _baseUrl = 'http://192.168.1.16:5000/api';
+  static final String _baseUrl = AppConstants.baseUrl;
 
   static Future<List<dynamic>> getReservations(String userEmail) async {
     try {

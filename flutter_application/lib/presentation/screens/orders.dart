@@ -8,6 +8,7 @@ import 'package:flutter_application/presentation/widgets/bottombar.dart';
 import 'home.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application/core/app_constants.dart';
 
 class Orders extends StatefulWidget {
   const Orders({super.key});
@@ -38,7 +39,8 @@ class _OrdersState extends State<Orders> {
       context: context,
       builder: (context) => Theme(
         data: Theme.of(context).copyWith(
-          dialogBackgroundColor: const Color(0xFFE1DBBD),
+          dialogTheme:
+              DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
         ),
         child: Dialog(
           backgroundColor: const Color(0xFFE1DBBD),
@@ -275,7 +277,7 @@ class _OrdersState extends State<Orders> {
       };
 
       final response = await http.post(
-        Uri.parse('http://192.168.1.16:5000/api/reservations'),
+        Uri.parse('${AppConstants.baseUrl}/reservations'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(reservationDetails),
       );
@@ -313,6 +315,7 @@ class _OrdersState extends State<Orders> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
@@ -463,7 +466,7 @@ class _OrdersState extends State<Orders> {
   Widget buildCard(cat_logic.Material details, int count) {
     String imageUrl = details.image.startsWith('http')
         ? details.image
-        : 'http://192.168.1.16:5000/${details.image}';
+        : '${AppConstants.baseUrl.replaceAll("/api", "")}/${details.image}';
 
     return Container(
       padding: const EdgeInsets.all(15),

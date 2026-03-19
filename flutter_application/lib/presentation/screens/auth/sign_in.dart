@@ -3,6 +3,7 @@ import 'package:flutter_application/data/logic.dart' as mylogic;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:flutter_application/core/app_constants.dart';
 import '../home.dart';
 
 class SignIn extends StatefulWidget {
@@ -24,7 +25,7 @@ class _SignInScreenState extends State<SignIn> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.16:5000/api/login'),
+        Uri.parse('${AppConstants.baseUrl}/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': _emailController.text,

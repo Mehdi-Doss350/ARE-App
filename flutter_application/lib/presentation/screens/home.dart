@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Future<List<category>> fetchCategories() async {
     final response =
-        await http.get(Uri.parse('http://192.168.1.16:5000/api/categories'));
+        await http.get(Uri.parse('http://192.168.1.15:5000/api/categories'));
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
       return data.map((json) => category.fromJson(json)).toList();
@@ -116,8 +116,8 @@ class _HomeState extends State<Home> {
                   if (added) setState(() {});
                 },
                 backgroundColor: Colors.black,
-                child: const Icon(Icons.add, color: Colors.white),
-                tooltip: 'Add Category')
+                tooltip: 'Add Category',
+                child: const Icon(Icons.add, color: Colors.white))
             : null,
       ),
     );
@@ -125,7 +125,7 @@ class _HomeState extends State<Home> {
 
   Widget product(String image, String name) {
     final String imageUrl =
-        image.startsWith('http') ? image : 'http://192.168.1.16:5000/$image';
+        image.startsWith('http') ? image : 'http://192.168.1.15:5000/$image';
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -179,7 +179,8 @@ Future<bool> showExitDialog(BuildContext context) async {
         barrierDismissible: false,
         builder: (context) => Theme(
           data: Theme.of(context).copyWith(
-            dialogBackgroundColor: const Color(0xFFE1DBBD),
+            dialogTheme:
+                DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
           ),
           child: PopScope(
             canPop: false,
@@ -285,7 +286,7 @@ Future<bool> showAddCategoryDialog(BuildContext context) async {
     barrierDismissible: false,
     builder: (context) => Theme(
       data: Theme.of(context).copyWith(
-        dialogBackgroundColor: const Color(0xFFE1DBBD),
+        dialogTheme: DialogThemeData(backgroundColor: const Color(0xFFE1DBBD)),
       ),
       child: StatefulBuilder(
         builder: (context, setState) => Dialog(
@@ -473,7 +474,7 @@ Future<bool> showAddCategoryDialog(BuildContext context) async {
                               var request = http.MultipartRequest(
                                 'POST',
                                 Uri.parse(
-                                    'http://192.168.1.16:5000/api/categories'),
+                                    'http://192.168.1.15:5000/api/categories'),
                               );
                               request.fields['name'] = nameController.text;
                               request.fields['op1'] =

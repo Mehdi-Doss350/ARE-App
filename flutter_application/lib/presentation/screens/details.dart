@@ -4,11 +4,12 @@ import 'package:flutter_application/presentation/widgets/appbar.dart';
 import 'package:flutter_application/presentation/widgets/bottombar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_application/core/app_constants.dart';
 
 // Helper to fetch the category by name
 Future<data_logic.category?> fetchCategoryByName(String name) async {
   final response =
-      await http.get(Uri.parse('http://192.168.1.16:5000/api/categories'));
+      await http.get(Uri.parse('${AppConstants.baseUrl}/categories'));
   if (response.statusCode == 200) {
     final List data = jsonDecode(response.body);
     for (final json in data) {
@@ -25,8 +26,8 @@ Future<data_logic.category?> fetchCategoryByName(String name) async {
 Future<Map<String, dynamic>?> fetchMaterialAndCategory(
     String categoryName, int materialIndex) async {
   // Fetch materials for the category
-  final materialResponse = await http.get(Uri.parse(
-      'http://192.168.1.16:5000/api/materials?category=$categoryName'));
+  final materialResponse = await http.get(
+      Uri.parse('${AppConstants.baseUrl}/materials?category=$categoryName'));
   if (materialResponse.statusCode != 200) return null;
   final List materialData = jsonDecode(materialResponse.body);
   if (materialIndex < 0 || materialIndex >= materialData.length) return null;
@@ -95,7 +96,7 @@ class _DetailsPageState extends State<DetailsPage> {
               String imageUrl = details.image.isNotEmpty
                   ? (details.image.startsWith('http')
                       ? details.image
-                      : 'http://192.168.1.16:5000/${details.image}')
+                      : '${AppConstants.baseUrl.replaceAll("/api", "")}/${details.image}')
                   : '';
 
               return SingleChildScrollView(
@@ -250,8 +251,9 @@ class _DetailsPageState extends State<DetailsPage> {
                               context: context,
                               builder: (context) => Theme(
                                 data: Theme.of(context).copyWith(
-                                  dialogBackgroundColor: const Color(
-                                      0xFFE1DBBD), // Your beige color
+                                  dialogTheme: DialogThemeData(
+                                      backgroundColor: const Color(
+                                          0xFFE1DBBD)), // Your beige color
                                 ),
                                 child: Dialog(
                                   backgroundColor: const Color(
